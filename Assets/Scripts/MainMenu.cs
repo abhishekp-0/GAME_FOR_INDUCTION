@@ -2,16 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using PostRequest;
+
 public class MainMenuManager : MonoBehaviour
 {
     public TMP_InputField nameInputField;
     public TMP_InputField registrationInputField;
     public Button submitButton;
+    private PostRequest postRequest;
 
     void Start()
     {
-        PostRequest postRequest = new PostRequest();
         submitButton.onClick.AddListener(OnSubmit);
     }
 
