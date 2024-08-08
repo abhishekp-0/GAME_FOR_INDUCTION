@@ -8,18 +8,18 @@ public class MainMenuManager : MonoBehaviour
     public TMP_InputField nameInputField;
     public TMP_InputField registrationInputField;
     public Button submitButton;
-    private PostRequest postRequest;
+    // private PostRequest postRequest;
 
     void Start()
     {
-        if (postRequest != null)
-        {
-            postRequest.StartCoroutine(postRequest.PostRequest("localhost:3000", "{ \"name\":\"Unity\" }"));
-        }
-        else
-        {
-            Debug.LogError("PostRequest reference is not assigned.");
-        }
+        // if (postRequest != null)
+        // {
+        //     postRequest.StartCoroutine(postRequest.PostRequest("localhost:3000", "{ \"name\":\"Unity\" }"));
+        // }
+        // else
+        // {
+        //     Debug.LogError("PostRequest reference is not assigned.");
+        // }
         submitButton.onClick.AddListener(OnSubmit);
     }
 

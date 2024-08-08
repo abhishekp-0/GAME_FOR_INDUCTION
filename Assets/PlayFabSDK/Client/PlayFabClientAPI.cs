@@ -2142,12 +2142,7 @@ namespace PlayFab
         /// </summary>
         public static void UpdatePlayerStatistics(UpdatePlayerStatisticsRequest request, Action<UpdatePlayerStatisticsResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
-            var context = (request == null ? null : request.AuthenticationContext) ?? PlayFabSettings.staticPlayer;
-            var callSettings = PlayFabSettings.staticSettings;
-            if (!context.IsClientLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
-
-
-            PlayFabHttp.MakeApiCall("/Client/UpdatePlayerStatistics", request, AuthType.LoginSession, resultCallback, errorCallback, customData, extraHeaders, context, callSettings);
+          
         }
 
         /// <summary>

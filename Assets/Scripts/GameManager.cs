@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public float gameSpeedIncrease = 0.1f;
     public float gameSpeed { get; private set; }
 
-
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI hiscoreText;
     [SerializeField] private TextMeshProUGUI gameOverText;
@@ -25,15 +24,19 @@ public class GameManager : MonoBehaviour
     private float hiscore;
 
     public PlayfabManager playfabManager;
+    public PostRequest postRequest; // Reference to the PostRequest component
+
     private void Awake()
     {
         if (Instance != null)
         {
             DestroyImmediate(gameObject);
+            Debug.LogWarning("Another instance of GameManager found and destroyed.");
         }
         else
         {
             Instance = this;
+            Debug.Log("GameManager instance created.");
         }
     }
 
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
         if (Instance == this)
         {
             Instance = null;
+            Debug.Log("GameManager instance destroyed.");
         }
     }
 
@@ -52,15 +56,18 @@ public class GameManager : MonoBehaviour
 
         NewGame();
         hiscore = PlayerPrefs.GetFloat("hiscore", 0);
+        Debug.Log("Game started. Current hiscore: " + hiscore);
     }
 
     public void NewGame()
     {
+        Debug.Log("Starting new game.");
         Obstacle[] obstacles = FindObjectsOfType<Obstacle>();
 
         foreach (var obstacle in obstacles)
         {
             Destroy(obstacle.gameObject);
+            Debug.Log("Destroyed obstacle: " + obstacle.name);
         }
 
         score = 0f;
@@ -74,11 +81,12 @@ public class GameManager : MonoBehaviour
 
         UpdateHiscore();
         playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
-
+        Debug.Log("Leaderboard updated with hiscore: " + hiscore);
     }
 
     public void GameOver()
     {
+        Debug.Log("Game over.");
         gameSpeed = 0f;
         enabled = false;
 
@@ -86,10 +94,23 @@ public class GameManager : MonoBehaviour
         spawner.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(true);
         retryButton.gameObject.SetActive(true);
+
         UpdateHiscore();
         playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
+        Debug.Log("Final score: " + Mathf.FloorToInt(score));
 
-
+        // Send score to the server via PostRequest
+        if (postRequest != null)
+        {
+            string playerName = PlayerPrefs.GetString("PlayerName");
+            string registrationNo = PlayerPrefs.GetString("RegistrationNo");
+            Debug.Log($"Sending score data to server. Name: {playerName}, RegNo: {registrationNo}, Score: {Mathf.FloorToInt(score)}");
+            postRequest.SendScoreData(playerName, registrationNo, Mathf.FloorToInt(score));
+        }
+        else
+        {
+            Debug.LogError("PostRequest reference is not assigned.");
+        }
     }
 
     private void Update()
@@ -98,8 +119,6 @@ public class GameManager : MonoBehaviour
         score += gameSpeed * Time.deltaTime;
         scoreText.text = Mathf.FloorToInt(score).ToString("D5");
         UpdateHiscore();
-
-
     }
 
     private void UpdateHiscore()
@@ -110,10 +129,9 @@ public class GameManager : MonoBehaviour
         {
             hiscore = score;
             PlayerPrefs.SetFloat("hiscore", hiscore);
+            Debug.Log("New hiscore achieved: " + hiscore);
         }
 
         hiscoreText.text = Mathf.FloorToInt(hiscore).ToString("D5");
-
     }
-
 }
