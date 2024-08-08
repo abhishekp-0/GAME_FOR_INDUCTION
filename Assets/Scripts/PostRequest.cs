@@ -51,7 +51,7 @@ public class PostRequest : MonoBehaviour
         Debug.Log("JSON data to send: " + json);
 
         // Create a UnityWebRequest for a POST request
-        UnityWebRequest request = new UnityWebRequest("https://induction-leaderboard.vercel.app/", "POST");
+        UnityWebRequest request = new UnityWebRequest("https://inductiongameserver.onrender.com/submit-score", "POST");
 
         // Convert the JSON string to a byte array
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
