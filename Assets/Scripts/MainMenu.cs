@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using PostRequest;
 public class MainMenuManager : MonoBehaviour
 {
     public TMP_InputField nameInputField;
@@ -11,7 +11,7 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-        // Add listener to the submit button
+        PostRequest postRequest = new PostRequest();
         submitButton.onClick.AddListener(OnSubmit);
     }
 
