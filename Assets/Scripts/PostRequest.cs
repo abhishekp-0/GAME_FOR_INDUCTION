@@ -10,7 +10,7 @@ public class PostRequest : MonoBehaviour
     {
         public string name;
         public string regno;
-        public int score;
+        public string score; // Changed to string
     }
 
     void Start()
@@ -32,18 +32,18 @@ public class PostRequest : MonoBehaviour
     public void SendScoreData(string name, string regno, int score)
     {
         Debug.Log($"Preparing to send score data: Name = {name}, RegNo = {regno}, Score = {score}");
-        StartCoroutine(PostScoreData(name, regno, score));
+        StartCoroutine(PostScoreData(name, regno, score.ToString())); // Convert score to string
     }
 
     // Coroutine to handle the API call
-    private IEnumerator PostScoreData(string name, string regno, int score)
+    private IEnumerator PostScoreData(string name, string regno, string score)
     {
         // Create a new ScoreData object
         ScoreData scoreData = new ScoreData
         {
             name = name,
             regno = regno,
-            score = score
+            score = score // Use string score
         };
 
         // Convert the object to a JSON string
@@ -51,7 +51,7 @@ public class PostRequest : MonoBehaviour
         Debug.Log("JSON data to send: " + json);
 
         // Create a UnityWebRequest for a POST request
-        UnityWebRequest request = new UnityWebRequest("https://induction-leaderboard.vercel.app", "POST");
+        UnityWebRequest request = new UnityWebRequest("https://induction-leaderboard.vercel.app/", "POST");
 
         // Convert the JSON string to a byte array
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
