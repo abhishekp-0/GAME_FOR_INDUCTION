@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public float Score => score;
     private float hiscore;
 
-    public PlayfabManager playfabManager;
+    // public PlayfabManager playfabManager;
     public PostRequest postRequest; // Reference to the PostRequest component
 
     private void Awake()
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         retryButton.gameObject.SetActive(false);
 
         UpdateHiscore();
-        playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
+        // playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
         Debug.Log("Leaderboard updated with hiscore: " + hiscore);
     }
     [System.Serializable]
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
         retryButton.gameObject.SetActive(true);
 
         UpdateHiscore();
-        playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
+        // playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
         Debug.Log("Final score: " + Mathf.FloorToInt(score));
 
         // Send score to the server via PostRequest
