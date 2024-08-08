@@ -1,12 +1,18 @@
+using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System;
+using TreeEditor;
 
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    public string json;
     public float initialGameSpeed = 5f;
     public float gameSpeedIncrease = 0.1f;
     public float gameSpeed { get; private set; }
@@ -83,6 +89,14 @@ public class GameManager : MonoBehaviour
         playfabManager.SendLeaderboard(Mathf.FloorToInt(hiscore));
         Debug.Log("Leaderboard updated with hiscore: " + hiscore);
     }
+    [System.Serializable]
+    public class Person
+    {
+        public string name { get; set; }
+        public string regno { get; set; }
+        public int score { get; set; }
+    }
+
 
     public void GameOver()
     {
