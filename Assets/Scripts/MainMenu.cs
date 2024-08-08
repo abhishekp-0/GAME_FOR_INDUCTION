@@ -12,6 +12,14 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        if (postRequest != null)
+        {
+            postRequest.StartCoroutine(postRequest.PostRequest("localhost:3000", "{ \"name\":\"Unity\" }"));
+        }
+        else
+        {
+            Debug.LogError("PostRequest reference is not assigned.");
+        }
         submitButton.onClick.AddListener(OnSubmit);
     }
 
